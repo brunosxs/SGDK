@@ -17,6 +17,9 @@ RUN apk update && \
 COPY . /sgdk
 ENV GDK=/sgdk
 
+COPY entry_point.sh /entry_point.sh
+RUN chmod +rwx /entry_point.sh
+
 # Create wrappers to execute .exe files using wine
 RUN /sgdk/bin/create-bin-wrappers.sh
 
@@ -24,4 +27,4 @@ RUN /sgdk/bin/create-bin-wrappers.sh
 VOLUME /src
 WORKDIR /src
 
-ENTRYPOINT [ "make", "-f", "/sgdk/makefile.gen" ]
+ENTRYPOINT [ "/entry_point.sh" ]
